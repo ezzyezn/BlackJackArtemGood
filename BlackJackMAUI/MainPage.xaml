@@ -24,6 +24,7 @@
             Grid.Row="1"
             Grid.Column="0"
             x:Name="DealerCardsHLayout">
+            
         </HorizontalStackLayout>
         <Button
             Grid.Row="2"
@@ -70,7 +71,8 @@
                 Grid.Column="2"
                 Text="Stand" 
                 x:Name="StandButton"
-                IsVisible="False"/>
+                IsVisible="False"
+                Clicked="StandButtonClick"/>
         </Grid>
     </Grid>
 

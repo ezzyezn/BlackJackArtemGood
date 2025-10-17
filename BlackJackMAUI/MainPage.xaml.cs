@@ -21,6 +21,9 @@
             //pokazywanie guzików Hit i Stand
             HitButton.IsVisible = true;
             StandButton.IsVisible = true;
+            //pokazywanie rąk gracza i dealera
+            DealerCardsHLayout.IsVisible = true;
+            PlayerCardsHLayout.IsVisible = true;
             //czyścimy ręce
             PlayerHand.cards.Clear();
             DealerHand.cards.Clear();
@@ -30,6 +33,13 @@
             PlayerHand.AddCard(Shoe.Draw());
             PlayerHand.AddCard(Shoe.Draw());
             RenderCards();
+            if (PlayerHand.Value() == 21)
+            {
+                DisplayAlert("Wygrana", "Masz dokładnie 21 punktów! Wygrałeś rundę.", "OK");
+                StartGameButton.IsVisible = true;
+                HitButton.IsVisible = false;
+                StandButton.IsVisible = false;
+            }
         }
         //test losowania karty z puli
         //private void PullRandomCard(object sender, EventArgs e)
@@ -86,11 +96,53 @@
                 //ukrywanie guz Hit i Stand
                 HitButton.IsVisible = false;
                 StandButton.IsVisible = false;
+                //ukrywanie rąk gracza i dealera
+                DealerCardsHLayout.IsVisible = false;
+                PlayerCardsHLayout.IsVisible = false;
+            } 
+            if (PlayerHand.Value() == 21)
+            {
+                DisplayAlert("Wygrana", "Masz dokładnie 21 punktów! Wygrałeś rundę.", "OK");
+                StartGameButton.IsVisible = true;
+                HitButton.IsVisible = false;
+                StandButton.IsVisible = false;
+                DealerCardsHLayout.IsVisible = false;
+                PlayerCardsHLayout.IsVisible = false;
             }
         }
         private bool PlayerBust()
         {
                        return PlayerHand.Value() > 21;
+        }
+
+        private void StandButtonClick(object sender, EventArgs e)
+        {
+            while(DealerHand.Value() < 17)
+            {
+                DealerHand.AddCard(Shoe.Draw());
+            }
+            if (DealerHand.Value() > 21)
+            {
+                DisplayAlert("Wygrana", "Krupier przekroczył 21 punktów! Wygrałeś rundę.", "OK");
+            }
+            else if (DealerHand.Value() == PlayerHand.Value())
+            {
+                DisplayAlert("Remis", "Masz tyle samo punktów co krupier! Remis.", "OK");
+            }
+            else if (DealerHand.Value() > PlayerHand.Value())
+            {
+                DisplayAlert("Przegrana", "Krupier ma więcej punktów! Przegrałeś rundę.", "OK");
+            }
+            else
+            {
+                DisplayAlert("Wygrana", "Masz więcej punktów niż krupier! Wygrałeś rundę.", "OK");
+            }
+            StartGameButton.IsVisible = true;
+            HitButton.IsVisible = false;
+            StandButton.IsVisible = false;
+            DealerCardsHLayout.IsVisible = false;
+            PlayerCardsHLayout.IsVisible = false;
+            RenderCards();
         }
     }
 }
