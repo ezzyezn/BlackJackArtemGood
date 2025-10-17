@@ -5,6 +5,8 @@
         Shoe Shoe;
         Hand PlayerHand;
         Hand DealerHand;
+        //defin flagi dla stanu gry
+        bool PlayerTurn;
         public MainPage()
         {
             InitializeComponent();
@@ -12,11 +14,12 @@
             PlayerHand = new Hand();
             DealerHand = new Hand();
             this.BackgroundImageSource = "table_background.jpg";
-
+            PlayerTurn = true;
         }
 
         private void NewGame(object sender, EventArgs e)
         {   
+            PlayerTurn = true;
             StartGameButton.IsVisible = false;
             //pokazywanie guzików Hit i Stand
             HitButton.IsVisible = true;
@@ -70,8 +73,11 @@
             {
                 Image cardImage = new Image();
                 cardImage.Source = ImageSource.FromFile(card.GetFileName());
-                cardImage.HeightRequest = 150;
+                cardImage.VerticalOptions = LayoutOptions.Fill;
+                cardImage.HorizontalOptions = LayoutOptions.Fill;
+                cardImage.Aspect = Aspect.AspectFill;
                 PlayerCardsHLayout.Add(cardImage);
+
             }
             PlayerScore.Text = "Wartość kart: " + PlayerHand.Value();
             //reka dealera - DealerCardsHLayout
@@ -81,6 +87,22 @@
                 cardImage.Source = ImageSource.FromFile(card.GetFileName());
                 cardImage.HeightRequest = 150;
                 DealerCardsHLayout.Add(cardImage);
+                cardImage.VerticalOptions = LayoutOptions.Fill;
+                cardImage.HorizontalOptions = LayoutOptions.Fill;
+                cardImage.Aspect = Aspect.AspectFill;
+            }
+            if (PlayerTurn)
+            {
+                if (DealerCardsHLayout.Children.Count > 1)
+                {
+                    Image backCardImage = new Image();
+                    backCardImage.Source = ImageSource.FromFile("back_karty.jpg");
+                    backCardImage.HeightRequest = 150;
+                    backCardImage.VerticalOptions = LayoutOptions.Fill;
+                    backCardImage.HorizontalOptions = LayoutOptions.Fill;
+                    backCardImage.Aspect = Aspect.AspectFill;
+                    DealerCardsHLayout.Children[1] = backCardImage;
+                }
             }
             DealerScore.Text = "Wartość kart: " + DealerHand.Value();
         }
@@ -97,8 +119,7 @@
                 HitButton.IsVisible = false;
                 StandButton.IsVisible = false;
                 //ukrywanie rąk gracza i dealera
-                DealerCardsHLayout.IsVisible = false;
-                PlayerCardsHLayout.IsVisible = false;
+                PlayerTurn = false;
             } 
             if (PlayerHand.Value() == 21)
             {
@@ -106,8 +127,6 @@
                 StartGameButton.IsVisible = true;
                 HitButton.IsVisible = false;
                 StandButton.IsVisible = false;
-                DealerCardsHLayout.IsVisible = false;
-                PlayerCardsHLayout.IsVisible = false;
             }
         }
         private bool PlayerBust()
@@ -117,6 +136,9 @@
 
         private void StandButtonClick(object sender, EventArgs e)
         {
+            while(DealerHand.Value() < 17)
+            PlayerTurn = false;
+            
             while(DealerHand.Value() < 17)
             {
                 DealerHand.AddCard(Shoe.Draw());
@@ -140,8 +162,6 @@
             StartGameButton.IsVisible = true;
             HitButton.IsVisible = false;
             StandButton.IsVisible = false;
-            DealerCardsHLayout.IsVisible = false;
-            PlayerCardsHLayout.IsVisible = false;
             RenderCards();
         }
     }
