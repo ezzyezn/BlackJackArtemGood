@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BlackJackMAUI.MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label
+            x:Name="DealerScore"
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="wynik_krupiera"
+            HorizontalOptions="Center" FontSize="20" TextColor="#FFFFFF" />
+        <HorizontalStackLayout 
+            Grid.Row="1"
+            Grid.Column="0"
+            x:Name="DealerCardsHLayout">
+        </HorizontalStackLayout>
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            x:Name="StartGameButton"
+            Text="Nowa gra"
+            Clicked="NewGame"
+            HorizontalOptions="Fill" />
+        <HorizontalStackLayout 
+            Grid.Row="3"
+            Grid.Column="0"
+            x:Name="PlayerCardsHLayout">
+        </HorizontalStackLayout>
+        <Grid
+            Grid.Row="4"
+            Grid.Column="0"
+            Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Hit"
+                Clicked="HitButtonClick"
+                x:Name="HitButton"/>
+            <Label
+            x:Name="PlayerScore"
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="wynik gracza"
+            HorizontalOptions="Center" 
+            FontSize="20" 
+            TextColor="#FFFFFF"
+            VerticalTextAlignment="Center"/>
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="Stand" 
+                x:Name="StandButton"/>
+        </Grid>
+    </Grid>
+
+
+</ContentPage>
